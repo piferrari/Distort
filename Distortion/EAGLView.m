@@ -5,6 +5,8 @@
 //  Created by mmalc Crawford on 11/18/10.
 //  Copyright 2010 Apple Inc. All rights reserved.
 //
+//  Based on Drew Olbrich, 1992 source code
+//  Port to OpenGL Nate Robins, 1997
 
 #import <QuartzCore/QuartzCore.h>
 

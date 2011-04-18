@@ -1,3 +1,12 @@
+//
+//  DistortionAppDelegate.h
+//  Distortion
+//
+//  Created by Ferrari Pierre on 18.04.11.
+//  Copyright 2011 piferrari.org. All rights reserved.
+//
+//  Copyright Jeff LaMarche
+
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_OS_EMBEDDED
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
