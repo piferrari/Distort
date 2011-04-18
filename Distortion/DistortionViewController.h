@@ -36,7 +36,7 @@ typedef struct {
   float r;
 } SPRING;
 
-@interface DistortionViewController : UIViewController {
+@interface DistortionViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 @private
   EAGLContext *context;
   GLuint program;
@@ -45,13 +45,16 @@ typedef struct {
   NSInteger animationFrameInterval;
   CADisplayLink *displayLink;
     
-  GLuint texture[1];
+  GLuint texture;
   int grab;
   int spring_count;
   MASS *mass;
   SPRING *spring;
   int mousex;
   int mousey;
+  
+  UIImagePickerController *imagePicker;
+  bool pause;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
@@ -64,6 +67,8 @@ typedef struct {
 @property (nonatomic, readwrite) int mousex;
 @property (nonatomic, readwrite) int mousey;
 
+@property (nonatomic, retain) UIImagePickerController *imagePicker;
+
 - (void)startAnimation;
 - (void)stopAnimation;
 
@@ -72,4 +77,7 @@ typedef struct {
 - (void)rubber_dynamics:(int)x:(int)y;
 
 - (void)setupView;
+- (void)loadTexture:(UIImage *)image;
+
+- (IBAction)tapDetected:(UIGestureRecognizer *)sender;
 @end

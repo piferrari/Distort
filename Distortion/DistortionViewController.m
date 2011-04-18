@@ -35,7 +35,7 @@ enum {
 
 @implementation DistortionViewController
 
-@synthesize animating, context, displayLink, grab, mass, spring, spring_count, mousex, mousey;
+@synthesize animating, context, displayLink, grab, mass, spring, spring_count, mousex, mousey, imagePicker;
 
 /*
  Do the dynamics simulation for the next frame.
@@ -245,6 +245,38 @@ enum {
     }
 }
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info 
+{
+  UIImage *image = [[info objectForKey:UIImagePickerControllerOriginalImage] retain];
+  if (image == nil) {
+    NSLog(@"Image is nil");
+  }
+  [self loadTexture:image];
+  [image release];
+  [imagePicker dismissModalViewControllerAnimated:YES];
+  [imagePicker release];
+  pause = NO;
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+  [imagePicker dismissModalViewControllerAnimated:YES];
+  [imagePicker release];
+}
+
+- (void)takeImage
+{
+  if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
+  {
+    pause = YES;
+    imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary|UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    imagePicker.delegate = self;
+    imagePicker.allowsEditing = NO;
+    [self presentModalViewController:imagePicker animated:YES];
+  } 
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {
   UITouch *touch = [[touches allObjects] objectAtIndex:0];
@@ -271,6 +303,49 @@ enum {
 {
 }
 
+- (void)loadTexture:(UIImage *)image
+{
+  if (image == nil)
+  {
+    NSLog(@"Image is null");
+    return;
+  }
+
+  GLuint width = CGImageGetWidth(image.CGImage);
+  GLuint height = CGImageGetHeight(image.CGImage);
+  
+  bool hasAlpha = CGImageGetAlphaInfo(image.CGImage) != kCGImageAlphaNone;
+  
+  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+  unsigned char *data = (unsigned char*)malloc(height * width * 4);
+  CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big;
+  CGContextRef cgContext = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, bitmapInfo);
+  CGColorSpaceRelease(colorSpace);
+  
+  CGRect rect = CGRectMake(0, 0, width, height);
+  CGContextClearRect(cgContext, rect);
+  // Flip the Y-axis
+  CGContextTranslateCTM (cgContext, 0, height);
+  CGContextScaleCTM (cgContext, 1.0, -1.0);
+  CGContextDrawImage(cgContext, rect, image.CGImage);
+  
+  CGContextRelease(cgContext);
+  
+  NSData *imageData = [NSData dataWithBytesNoCopy:data length:(height * width * 4) freeWhenDone:YES];
+
+  glGenTextures(1, &texture);
+  glBindTexture(GL_TEXTURE_2D, texture);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+  if (!hasAlpha) {
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+  }
+  else {
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+  }
+  free(data);
+}
+
 - (void)setupView
 {
   glEnable(GL_DEPTH_TEST);
@@ -284,41 +359,13 @@ enum {
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_SRC_COLOR);
-  
-  //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  
-  
-  // Bind the number of textures we need, in this case one.
-  glGenTextures(1, &texture[0]);
-  glBindTexture(GL_TEXTURE_2D, texture[0]);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); 
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-  
+    
   NSString *path = [[NSBundle mainBundle] pathForResource:@"distort" ofType:@"png"];
   NSData *texData = [[NSData alloc] initWithContentsOfFile:path];
   UIImage *image = [[UIImage alloc] initWithData:texData];
   
-  if (image == nil)
-    NSLog(@"Do real error checking here");
+  [self loadTexture:image];
   
-  GLuint width = CGImageGetWidth(image.CGImage);
-  GLuint height = CGImageGetHeight(image.CGImage);
-  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-  void *imageData = malloc( height * width * 4 );
-  CGContextRef cgContext = CGBitmapContextCreate( imageData, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big );
-  
-  // Flip the Y-axis
-  CGContextTranslateCTM (cgContext, 0, height);
-  CGContextScaleCTM (cgContext, 1.0, -1.0);
-  
-  CGColorSpaceRelease( colorSpace );
-  CGContextClearRect( cgContext, CGRectMake( 0, 0, width, height ) );
-  CGContextDrawImage( cgContext, CGRectMake( 0, 0, width, height ), image.CGImage );
-  
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-  
-  CGContextRelease(cgContext);
-  
-  free(imageData);
   [image release];
   [texData release];
   
@@ -339,6 +386,11 @@ enum {
   // const GLfloat light0Position[] = {10.0, 10.0, 10.0}; 
   static const Vertex3D light0Position[] = {{10.0, 10.0, 10.0}};
   glLightfv(GL_LIGHT0, GL_POSITION, (const GLfloat *)light0Position);
+}
+
+- (IBAction)tapDetected:(UIGestureRecognizer *)sender
+{
+	[self takeImage];
 }
 
 - (void)awakeFromNib
@@ -362,6 +414,11 @@ enum {
   animating = FALSE;
   animationFrameInterval = 1;
   self.displayLink = nil;
+  
+  UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected:)];
+  doubleTap.numberOfTapsRequired = 2;
+  [self.view addGestureRecognizer:doubleTap];
+  [doubleTap release];
 }
 
 - (void)dealloc
@@ -462,32 +519,33 @@ enum {
 - (void)drawFrame
 {
   [(EAGLView *)self.view setFramebuffer];
-  [self rubber_dynamics:mousex:mousey];
-
-  glColor4f(0.0, 0.0, 0.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  
-  glEnableClientState(GL_VERTEX_ARRAY);
-  glEnableClientState(GL_NORMAL_ARRAY);
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  
-  static const Vector3D normals[] = {
-    {0.0, 0.0, 1.0},
-    {0.0, 0.0, 1.0},
-    {0.0, 0.0, 1.0},
-    {0.0, 0.0, 1.0}
-  };
-  
-  glLoadIdentity();
-  glTranslatef(0.0, 0.0, -3.0);
-  
-  glBindTexture(GL_TEXTURE_2D, texture[0]);
-  glNormalPointer(GL_FLOAT, 0, normals);
-  [self rubber_redraw];  
-  glDisableClientState(GL_VERTEX_ARRAY);
-  glDisableClientState(GL_NORMAL_ARRAY);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  
+  if (!pause) {
+    [self rubber_dynamics:mousex:mousey];
+    
+    glColor4f(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    static const Vector3D normals[] = {
+      {0.0, 0.0, 1.0},
+      {0.0, 0.0, 1.0},
+      {0.0, 0.0, 1.0},
+      {0.0, 0.0, 1.0}
+    };
+    
+    glLoadIdentity();
+    glTranslatef(0.0, 0.0, -3.0);
+    
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glNormalPointer(GL_FLOAT, 0, normals);
+    [self rubber_redraw];  
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  }
   [(EAGLView *)self.view presentFramebuffer];
 }
 
