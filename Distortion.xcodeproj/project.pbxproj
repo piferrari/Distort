@@ -1,0 +1,312 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		ABAA251A135BEC30005FD834 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAA2519135BEC30005FD834 /* UIKit.framework */; };
+		ABAA251C135BEC30005FD834 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAA251B135BEC30005FD834 /* Foundation.framework */; };
+		ABAA251E135BEC30005FD834 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAA251D135BEC30005FD834 /* CoreGraphics.framework */; };
+		ABAA2520135BEC30005FD834 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAA251F135BEC30005FD834 /* QuartzCore.framework */; };
+		ABAA2522135BEC30005FD834 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAA2521135BEC30005FD834 /* OpenGLES.framework */; };
+		ABAA2528135BEC30005FD834 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABAA2526135BEC30005FD834 /* InfoPlist.strings */; };
+		ABAA252B135BEC30005FD834 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA252A135BEC30005FD834 /* main.m */; };
+		ABAA252E135BEC30005FD834 /* DistortionAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA252D135BEC30005FD834 /* DistortionAppDelegate.m */; };
+		ABAA2531135BEC30005FD834 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA252F135BEC30005FD834 /* MainWindow.xib */; };
+		ABAA2538135BEC30005FD834 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA2537135BEC30005FD834 /* EAGLView.m */; };
+		ABAA253B135BEC30005FD834 /* DistortionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA253A135BEC30005FD834 /* DistortionViewController.m */; };
+		ABAA253E135BEC30005FD834 /* DistortionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA253C135BEC30005FD834 /* DistortionViewController.xib */; };
+		ABAA254D135BF5D1005FD834 /* distort.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAA254C135BF5D1005FD834 /* distort.png */; };
+		ABAA2550135C0111005FD834 /* dog.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAA254F135C0111005FD834 /* dog.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		ABAA2515135BEC30005FD834 /* Distortion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Distortion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABAA2519135BEC30005FD834 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		ABAA251B135BEC30005FD834 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		ABAA251D135BEC30005FD834 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		ABAA251F135BEC30005FD834 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		ABAA2521135BEC30005FD834 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		ABAA2525135BEC30005FD834 /* Distortion-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Distortion-Info.plist"; sourceTree = "<group>"; };
+		ABAA2527135BEC30005FD834 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		ABAA2529135BEC30005FD834 /* Distortion-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Distortion-Prefix.pch"; sourceTree = "<group>"; };
+		ABAA252A135BEC30005FD834 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		ABAA252C135BEC30005FD834 /* DistortionAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DistortionAppDelegate.h; sourceTree = "<group>"; };
+		ABAA252D135BEC30005FD834 /* DistortionAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DistortionAppDelegate.m; sourceTree = "<group>"; };
+		ABAA2530135BEC30005FD834 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		ABAA2536135BEC30005FD834 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
+		ABAA2537135BEC30005FD834 /* EAGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
+		ABAA2539135BEC30005FD834 /* DistortionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DistortionViewController.h; sourceTree = "<group>"; };
+		ABAA253A135BEC30005FD834 /* DistortionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DistortionViewController.m; sourceTree = "<group>"; };
+		ABAA253D135BEC30005FD834 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DistortionViewController.xib; sourceTree = "<group>"; };
+		ABAA254C135BF5D1005FD834 /* distort.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = distort.png; sourceTree = "<group>"; };
+		ABAA254E135BF5DE005FD834 /* OpenGLCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLCommon.h; sourceTree = "<group>"; };
+		ABAA254F135C0111005FD834 /* dog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dog.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ABAA2512135BEC30005FD834 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABAA251A135BEC30005FD834 /* UIKit.framework in Frameworks */,
+				ABAA251C135BEC30005FD834 /* Foundation.framework in Frameworks */,
+				ABAA251E135BEC30005FD834 /* CoreGraphics.framework in Frameworks */,
+				ABAA2520135BEC30005FD834 /* QuartzCore.framework in Frameworks */,
+				ABAA2522135BEC30005FD834 /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ABAA250A135BEC30005FD834 = {
+			isa = PBXGroup;
+			children = (
+				ABAA2523135BEC30005FD834 /* Distortion */,
+				ABAA2518135BEC30005FD834 /* Frameworks */,
+				ABAA2516135BEC30005FD834 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ABAA2516135BEC30005FD834 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABAA2515135BEC30005FD834 /* Distortion.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABAA2518135BEC30005FD834 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ABAA2519135BEC30005FD834 /* UIKit.framework */,
+				ABAA251B135BEC30005FD834 /* Foundation.framework */,
+				ABAA251D135BEC30005FD834 /* CoreGraphics.framework */,
+				ABAA251F135BEC30005FD834 /* QuartzCore.framework */,
+				ABAA2521135BEC30005FD834 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ABAA2523135BEC30005FD834 /* Distortion */ = {
+			isa = PBXGroup;
+			children = (
+				ABAA254F135C0111005FD834 /* dog.png */,
+				ABAA254E135BF5DE005FD834 /* OpenGLCommon.h */,
+				ABAA254C135BF5D1005FD834 /* distort.png */,
+				ABAA252C135BEC30005FD834 /* DistortionAppDelegate.h */,
+				ABAA252D135BEC30005FD834 /* DistortionAppDelegate.m */,
+				ABAA252F135BEC30005FD834 /* MainWindow.xib */,
+				ABAA2536135BEC30005FD834 /* EAGLView.h */,
+				ABAA2537135BEC30005FD834 /* EAGLView.m */,
+				ABAA2539135BEC30005FD834 /* DistortionViewController.h */,
+				ABAA253A135BEC30005FD834 /* DistortionViewController.m */,
+				ABAA253C135BEC30005FD834 /* DistortionViewController.xib */,
+				ABAA2524135BEC30005FD834 /* Supporting Files */,
+			);
+			path = Distortion;
+			sourceTree = "<group>";
+		};
+		ABAA2524135BEC30005FD834 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				ABAA2525135BEC30005FD834 /* Distortion-Info.plist */,
+				ABAA2526135BEC30005FD834 /* InfoPlist.strings */,
+				ABAA2529135BEC30005FD834 /* Distortion-Prefix.pch */,
+				ABAA252A135BEC30005FD834 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ABAA2514135BEC30005FD834 /* Distortion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABAA2541135BEC30005FD834 /* Build configuration list for PBXNativeTarget "Distortion" */;
+			buildPhases = (
+				ABAA2511135BEC30005FD834 /* Sources */,
+				ABAA2512135BEC30005FD834 /* Frameworks */,
+				ABAA2513135BEC30005FD834 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Distortion;
+			productName = Distortion;
+			productReference = ABAA2515135BEC30005FD834 /* Distortion.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ABAA250C135BEC30005FD834 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = piferrari.org;
+			};
+			buildConfigurationList = ABAA250F135BEC30005FD834 /* Build configuration list for PBXProject "Distortion" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = ABAA250A135BEC30005FD834;
+			productRefGroup = ABAA2516135BEC30005FD834 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ABAA2514135BEC30005FD834 /* Distortion */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ABAA2513135BEC30005FD834 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABAA2528135BEC30005FD834 /* InfoPlist.strings in Resources */,
+				ABAA2531135BEC30005FD834 /* MainWindow.xib in Resources */,
+				ABAA253E135BEC30005FD834 /* DistortionViewController.xib in Resources */,
+				ABAA254D135BF5D1005FD834 /* distort.png in Resources */,
+				ABAA2550135C0111005FD834 /* dog.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ABAA2511135BEC30005FD834 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABAA252B135BEC30005FD834 /* main.m in Sources */,
+				ABAA252E135BEC30005FD834 /* DistortionAppDelegate.m in Sources */,
+				ABAA2538135BEC30005FD834 /* EAGLView.m in Sources */,
+				ABAA253B135BEC30005FD834 /* DistortionViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		ABAA2526135BEC30005FD834 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABAA2527135BEC30005FD834 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		ABAA252F135BEC30005FD834 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABAA2530135BEC30005FD834 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		ABAA253C135BEC30005FD834 /* DistortionViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ABAA253D135BEC30005FD834 /* en */,
+			);
+			name = DistortionViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		ABAA253F135BEC30005FD834 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		ABAA2540135BEC30005FD834 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		ABAA2542135BEC30005FD834 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Distortion/Distortion-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				INFOPLIST_FILE = "Distortion/Distortion-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		ABAA2543135BEC30005FD834 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Distortion/Distortion-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				INFOPLIST_FILE = "Distortion/Distortion-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ABAA250F135BEC30005FD834 /* Build configuration list for PBXProject "Distortion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABAA253F135BEC30005FD834 /* Debug */,
+				ABAA2540135BEC30005FD834 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABAA2541135BEC30005FD834 /* Build configuration list for PBXNativeTarget "Distortion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABAA2542135BEC30005FD834 /* Debug */,
+				ABAA2543135BEC30005FD834 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ABAA250C135BEC30005FD834 /* Project object */;
+}
