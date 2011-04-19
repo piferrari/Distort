@@ -16,6 +16,7 @@
 #import <OpenGLES/ES1/glext.h>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
+#import "Texture2D.h"
 
 #define GRID_SIZE_X  32
 #define GRID_SIZE_Y  32
@@ -55,6 +56,8 @@ typedef struct {
   
   UIImagePickerController *imagePicker;
   bool pause;
+  
+  Texture2D *texture2D;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
@@ -68,6 +71,7 @@ typedef struct {
 @property (nonatomic, readwrite) int mousey;
 
 @property (nonatomic, retain) UIImagePickerController *imagePicker;
+@property (nonatomic, retain) Texture2D *texture2D;
 
 - (void)startAnimation;
 - (void)stopAnimation;
@@ -77,7 +81,6 @@ typedef struct {
 - (void)rubber_dynamics:(int)x:(int)y;
 
 - (void)setupView;
-- (void)loadTexture:(UIImage *)image;
 
 - (IBAction)tapDetected:(UIGestureRecognizer *)sender;
 @end

@@ -21,6 +21,8 @@
 		ABAA253E135BEC30005FD834 /* DistortionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA253C135BEC30005FD834 /* DistortionViewController.xib */; };
 		ABAA254D135BF5D1005FD834 /* distort.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAA254C135BF5D1005FD834 /* distort.png */; };
 		ABAA2550135C0111005FD834 /* dog.png in Resources */ = {isa = PBXBuildFile; fileRef = ABAA254F135C0111005FD834 /* dog.png */; };
+		ABB7591E135D659F000CC4E5 /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB7591D135D659F000CC4E5 /* Texture2D.m */; };
+		ABB75922135D6601000CC4E5 /* PVRTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB75921135D6601000CC4E5 /* PVRTexture.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,10 @@
 		ABAA254C135BF5D1005FD834 /* distort.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = distort.png; sourceTree = "<group>"; };
 		ABAA254E135BF5DE005FD834 /* OpenGLCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLCommon.h; sourceTree = "<group>"; };
 		ABAA254F135C0111005FD834 /* dog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dog.png; sourceTree = "<group>"; };
+		ABB7591C135D659F000CC4E5 /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture2D.h; sourceTree = "<group>"; };
+		ABB7591D135D659F000CC4E5 /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture2D.m; sourceTree = "<group>"; };
+		ABB75920135D6601000CC4E5 /* PVRTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTexture.h; sourceTree = "<group>"; };
+		ABB75921135D6601000CC4E5 /* PVRTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVRTexture.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,10 @@
 				ABAA2537135BEC30005FD834 /* EAGLView.m */,
 				ABAA2539135BEC30005FD834 /* DistortionViewController.h */,
 				ABAA253A135BEC30005FD834 /* DistortionViewController.m */,
+				ABB75920135D6601000CC4E5 /* PVRTexture.h */,
+				ABB75921135D6601000CC4E5 /* PVRTexture.m */,
+				ABB7591C135D659F000CC4E5 /* Texture2D.h */,
+				ABB7591D135D659F000CC4E5 /* Texture2D.m */,
 				ABAA253C135BEC30005FD834 /* DistortionViewController.xib */,
 				ABAA2524135BEC30005FD834 /* Supporting Files */,
 			);
@@ -191,6 +201,8 @@
 				ABAA252E135BEC30005FD834 /* DistortionAppDelegate.m in Sources */,
 				ABAA2538135BEC30005FD834 /* EAGLView.m in Sources */,
 				ABAA253B135BEC30005FD834 /* DistortionViewController.m in Sources */,
+				ABB7591E135D659F000CC4E5 /* Texture2D.m in Sources */,
+				ABB75922135D6601000CC4E5 /* PVRTexture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +317,7 @@
 				ABAA2543135BEC30005FD834 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

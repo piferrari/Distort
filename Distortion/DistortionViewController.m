@@ -35,7 +35,7 @@ enum {
 
 @implementation DistortionViewController
 
-@synthesize animating, context, displayLink, grab, mass, spring, spring_count, mousex, mousey, imagePicker;
+@synthesize animating, context, displayLink, grab, mass, spring, spring_count, mousex, mousey, imagePicker, texture2D;
 
 /*
  Do the dynamics simulation for the next frame.
@@ -251,7 +251,12 @@ enum {
   if (image == nil) {
     NSLog(@"Image is nil");
   }
-  [self loadTexture:image];
+  if (texture2D != nil) {
+    [texture2D release];
+  }
+  texture2D = [[Texture2D alloc] initWithImage:image];
+  texture = texture2D.name;
+  
   [image release];
   [imagePicker dismissModalViewControllerAnimated:YES];
   [imagePicker release];
@@ -303,49 +308,6 @@ enum {
 {
 }
 
-- (void)loadTexture:(UIImage *)image
-{
-  if (image == nil)
-  {
-    NSLog(@"Image is null");
-    return;
-  }
-
-  GLuint width = CGImageGetWidth(image.CGImage);
-  GLuint height = CGImageGetHeight(image.CGImage);
-  
-  bool hasAlpha = CGImageGetAlphaInfo(image.CGImage) != kCGImageAlphaNone;
-  
-  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-  unsigned char *data = (unsigned char*)malloc(height * width * 4);
-  CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big;
-  CGContextRef cgContext = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, bitmapInfo);
-  CGColorSpaceRelease(colorSpace);
-  
-  CGRect rect = CGRectMake(0, 0, width, height);
-  CGContextClearRect(cgContext, rect);
-  // Flip the Y-axis
-  CGContextTranslateCTM (cgContext, 0, height);
-  CGContextScaleCTM (cgContext, 1.0, -1.0);
-  CGContextDrawImage(cgContext, rect, image.CGImage);
-  
-  CGContextRelease(cgContext);
-  
-  NSData *imageData = [NSData dataWithBytesNoCopy:data length:(height * width * 4) freeWhenDone:YES];
-
-  glGenTextures(1, &texture);
-  glBindTexture(GL_TEXTURE_2D, texture);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-  if (!hasAlpha) {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-  }
-  else {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-  }
-  free(data);
-}
-
 - (void)setupView
 {
   glEnable(GL_DEPTH_TEST);
@@ -358,13 +320,15 @@ enum {
   // Turn necessary features on
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glBlendFunc(GL_ONE, GL_SRC_COLOR);
     
   NSString *path = [[NSBundle mainBundle] pathForResource:@"distort" ofType:@"png"];
   NSData *texData = [[NSData alloc] initWithContentsOfFile:path];
   UIImage *image = [[UIImage alloc] initWithData:texData];
   
-  [self loadTexture:image];
+  texture2D = [[Texture2D alloc] initWithImage:image];
+  texture = texture2D.name;
   
   [image release];
   [texData release];
@@ -433,6 +397,8 @@ enum {
     [EAGLContext setCurrentContext:nil];
   
   [context release];
+  
+  [texture2D release];
   
   [super dealloc];
 }
