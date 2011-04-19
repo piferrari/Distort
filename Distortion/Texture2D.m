@@ -214,17 +214,17 @@ static Texture2DPixelFormat defaultAlphaPixelFormat = kTexture2DPixelFormat_Defa
 			i *= 2;
 		height = i;
 	}
-	
-	NSAssert2( (width <= kMaxTextureSize) && (height <= kMaxTextureSize), @"Image is bigger than the supported %d x %d", kMaxTextureSize, kMaxTextureSize);
+
+	while((width > kMaxTextureSize) || (height > kMaxTextureSize)) {
+		width /= 2;
+		height /= 2;
+		transform = CGAffineTransformScale(transform, 0.5f, 0.5f);
+		imageSize.width *= 0.5f;
+		imageSize.height *= 0.5f;
+	}
   
-  //	while((width > kMaxTextureSize) || (height > kMaxTextureSize)) {
-  //		width /= 2;
-  //		height /= 2;
-  //		transform = CGAffineTransformScale(transform, 0.5f, 0.5f);
-  //		imageSize.width *= 0.5f;
-  //		imageSize.height *= 0.5f;
-  //	}
-	
+	NSAssert2( (width <= kMaxTextureSize) && (height <= kMaxTextureSize), @"Image is bigger than the supported %d x %d", kMaxTextureSize, kMaxTextureSize);
+
 	// Create the bitmap graphics context
 	
 	switch(pixelFormat) {          

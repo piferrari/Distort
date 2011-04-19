@@ -320,7 +320,7 @@ enum {
   // Turn necessary features on
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glBlendFunc(GL_ONE, GL_SRC_COLOR);
     
   NSString *path = [[NSBundle mainBundle] pathForResource:@"distort" ofType:@"png"];
