@@ -51,6 +51,8 @@ typedef struct {
   int spring_count;
   MASS *mass;
   SPRING *spring;
+  MASS *backupMass;
+  SPRING *backupSpring;
   int mousex;
   int mousey;
   
@@ -79,6 +81,7 @@ typedef struct {
 - (int)rubber_grab:(int)x:(int)y;
 - (void)rubber_init;
 - (void)rubber_dynamics:(int)x:(int)y;
+- (void)rubber_free;
 
 - (void)setupView;
 

@@ -73,8 +73,8 @@
 
 //CONSTANTS:
 
-#define kMaxTextureSize	 1024
-//#define kMaxTextureSize		2048
+//#define kMaxTextureSize	 1024
+#define kMaxTextureSize		2048
 
 //CLASS IMPLEMENTATIONS:
 
@@ -254,7 +254,7 @@ static Texture2DPixelFormat defaultAlphaPixelFormat = kTexture2DPixelFormat_Defa
 	CGContextClearRect(context, CGRectMake(0, 0, width, height));
 	CGContextTranslateCTM(context, 0, height - imageSize.height);
   
-  CGContextTranslateCTM(context, 0.0, height); //i.e., move the y-origin from the top to the bottom
+  CGContextTranslateCTM(context, 0.0, imageSize.height); //i.e., move the y-origin from the top to the bottom
   CGContextScaleCTM(context, 1.0, -1.0); //i.e., invert the y-axis        
   
 	if(!CGAffineTransformIsIdentity(transform))

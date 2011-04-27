@@ -172,10 +172,22 @@ enum {
   return min_i;
 }
 
+- (void)rubber_free
+{
+  free(backupMass);
+  backupMass = mass = NULL;
+  free(backupSpring);
+  backupSpring = spring = NULL;
+  grab = -1;
+}
+
 - (void)rubber_init
 {
-  CGRect rect = self.view.bounds;
-  //glEnable(GL_DEPTH_TEST);
+//  CGRect rect = self.view.bounds;
+//  GLfloat screenWidth = rect.size.width;
+//  GLfloat screenHeight = rect.size.height;
+  GLfloat width = texture2D.contentSize.width;
+  GLfloat height = texture2D.contentSize.height;
   int i, j;
   int k;
   int m;
@@ -188,16 +200,16 @@ enum {
       fprintf(stderr, "rubber: Can't allocate memory.\n");	
       exit(-1);
     }
+    backupMass = mass;
   }
   
   k = 0;
   for (i = 0; i < GRID_SIZE_X; i++)
     for (j = 0; j < GRID_SIZE_Y; j++)
     {
-      mass[k].nail = (i == 0 || j == 0 || i == GRID_SIZE_X - 1
-                      || j == GRID_SIZE_Y - 1);
-      mass[k].x[0] = i/(GRID_SIZE_X - 1.0)*rect.size.width;
-      mass[k].x[1] = j/(GRID_SIZE_Y - 1.0)*rect.size.height;
+      mass[k].nail = (i == 0 || j == 0 || i == GRID_SIZE_X - 1 || j == GRID_SIZE_Y - 1);
+      mass[k].x[0] = i/(GRID_SIZE_X - 1.0)*width;
+      mass[k].x[1] = j/(GRID_SIZE_Y - 1.0)*height;
       mass[k].x[2] = -(CLIP_FAR - CLIP_NEAR)/2.0;
       
       mass[k].v[0] = 0.0;
@@ -212,8 +224,7 @@ enum {
   
   if (spring == NULL)
   {
-    spring_count = (GRID_SIZE_X - 1)*(GRID_SIZE_Y - 2)
-    + (GRID_SIZE_Y - 1)*(GRID_SIZE_X - 2);
+    spring_count = (GRID_SIZE_X - 1)*(GRID_SIZE_Y - 2) + (GRID_SIZE_Y - 1)*(GRID_SIZE_X - 2);
     
     spring = (SPRING *) malloc(sizeof(SPRING)*spring_count);
     if (spring == NULL)
@@ -221,6 +232,7 @@ enum {
       fprintf(stderr, "rubber: Can't allocate memory.\n");	
       exit(-1);
     }
+    backupSpring = spring;
   }
   
   k = 0;
@@ -230,7 +242,7 @@ enum {
       m = GRID_SIZE_Y*i + j;
       spring[k].i = m;
       spring[k].j = m + 1;
-      spring[k].r = (rect.size.height - 1.0)/(GRID_SIZE_Y - 1.0);
+      spring[k].r = (height - 1.0)/(GRID_SIZE_Y - 1.0);
       k++;
     }
   
@@ -240,7 +252,7 @@ enum {
       m = GRID_SIZE_Y*i + j;
       spring[k].i = m;
       spring[k].j = m + GRID_SIZE_X;
-      spring[k].r = (rect.size.width - 1.0)/(GRID_SIZE_X - 1.0);
+      spring[k].r = (width - 1.0)/(GRID_SIZE_X - 1.0);
       k++;
     }
 }
@@ -251,11 +263,15 @@ enum {
   if (image == nil) {
     NSLog(@"Image is nil");
   }
+
   if (texture2D != nil) {
     [texture2D release];
   }
   texture2D = [[Texture2D alloc] initWithImage:image];
   texture = texture2D.name;
+  NSLog(@"size:%ix%i ContentSize:%fx%f maxs:%f maxt:%f", texture2D.pixelsWide, texture2D.pixelsHigh, texture2D.contentSize.width, texture2D.contentSize.height, texture2D.maxS, texture2D.maxT);
+  [self rubber_free];
+  [self rubber_init];
   
   [image release];
   [imagePicker dismissModalViewControllerAnimated:YES];
@@ -271,8 +287,10 @@ enum {
 
 - (void)takeImage
 {
-  if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
+  if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary|UIImagePickerControllerSourceTypeSavedPhotosAlbum])
   {
+    // Force generation of device orientation notifications
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     pause = YES;
     imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary|UIImagePickerControllerSourceTypeSavedPhotosAlbum;
@@ -313,16 +331,34 @@ enum {
   glEnable(GL_DEPTH_TEST);
   glMatrixMode(GL_PROJECTION); 
   CGRect rect = self.view.bounds;
-  glOrthof(-0.5, rect.size.width - 0.5, -0.5, rect.size.height - 0.5, CLIP_NEAR, CLIP_FAR);
+  glLoadIdentity();
   glViewport(0, 0, rect.size.width, rect.size.height);
+  glOrthof(/* left */0.0, /* right */rect.size.width, /* bottom */0.0  , /* top */rect.size.height, CLIP_NEAR, CLIP_FAR);
+  NSLog(@"width:%f  height:%f", rect.size.width, rect.size.height);
   glMatrixMode(GL_MODELVIEW);
   
   // Turn necessary features on
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
-  //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glBlendFunc(GL_ONE, GL_SRC_COLOR);
-    
+
+  glEnable(GL_LIGHTING);
+  // Turn the first light on
+  glEnable(GL_LIGHT0);
+  
+  // Define the ambient component of the first light
+  static const Color3D light0Ambient[] = {{1.0, 1.0, 1.0, 1.0}};//{{0.04, 0.04, 0.04, 1.0}};
+  glLightfv(GL_LIGHT0, GL_AMBIENT, (const GLfloat *)light0Ambient);
+  
+  // Define the diffuse component of the first light
+  static const Color3D light0Diffuse[] = {{1.0, 1.0, 1.0, 1.0}};//{{0.8, 0.8, 0.8, 1.0}};
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, (const GLfloat *)light0Diffuse);
+  
+  // Define the position of the first light
+  // const GLfloat light0Position[] = {10.0, 10.0, 10.0}; 
+  static const Vertex3D light0Position[] = {{10.0, 10.0, 10.0}};
+  glLightfv(GL_LIGHT0, GL_POSITION, (const GLfloat *)light0Position);
+
   NSString *path = [[NSBundle mainBundle] pathForResource:@"distort" ofType:@"png"];
   NSData *texData = [[NSData alloc] initWithContentsOfFile:path];
   UIImage *image = [[UIImage alloc] initWithData:texData];
@@ -332,24 +368,6 @@ enum {
   
   [image release];
   [texData release];
-  
-  glEnable(GL_LIGHTING);
-  
-  // Turn the first light on
-  glEnable(GL_LIGHT0);
-  
-  // Define the ambient component of the first light
-  static const Color3D light0Ambient[] = {{0.4, 0.4, 0.4, 1.0}};
-  glLightfv(GL_LIGHT0, GL_AMBIENT, (const GLfloat *)light0Ambient);
-  
-  // Define the diffuse component of the first light
-  static const Color3D light0Diffuse[] = {{0.8, 0.8, 0.8, 1.0}};
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, (const GLfloat *)light0Diffuse);
-  
-  // Define the position of the first light
-  // const GLfloat light0Position[] = {10.0, 10.0, 10.0}; 
-  static const Vertex3D light0Position[] = {{10.0, 10.0, 10.0}};
-  glLightfv(GL_LIGHT0, GL_POSITION, (const GLfloat *)light0Position);
 }
 
 - (IBAction)tapDetected:(UIGestureRecognizer *)sender
@@ -399,7 +417,7 @@ enum {
   [context release];
   
   [texture2D release];
-  
+  [self rubber_free];
   [super dealloc];
 }
 
@@ -503,8 +521,6 @@ enum {
     };
     
     glLoadIdentity();
-    glTranslatef(0.0, 0.0, -3.0);
-    
     glBindTexture(GL_TEXTURE_2D, texture);
     glNormalPointer(GL_FLOAT, 0, normals);
     [self rubber_redraw];  
